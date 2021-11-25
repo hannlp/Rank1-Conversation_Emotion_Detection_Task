@@ -5,7 +5,10 @@
 | 0.826 | 0.7544 | 0.719 |
 
 # 基于预训练模型和时序预测模型的对话情感探测任务
-## 1 摘要 
+## 1 摘要
+针对对话情感探测任务，本文将其分为文本分类和时间序列预测两个子任务，分别采用预训练模型和时序预测模型进行拟合，并使用预测结果融合的方式将两种模型的预测结果结合在一起。在实验中，本文使用微调的roberta、bert、electra三个模型，并与gru、transformer-encoder相结合，得到了0.7544的f1值以及0.826的准确率，取得了比赛的第一名。所有模型和代码可以在这里找到：https://github.com/hannlp/Rank1-Conversation_Emotion_Detection_Task
+
+For the task of Conversation Emotion Detection, this paper divides it into two subtasks: Text Classification and Time Series Prediction. The pre-training model and the time series prediction model are used for fitting respectively, and the prediction results of the two models are combined in the method of fusion of prediction results. Together. In the experiment, this article uses the three models of fine-tuned Roberta, Bert, and Electra, combined with GRU and Transformer-Encoder, to obtain an f1 value of 0.7544 and an accuracy rate of 0.826, and won the first place in the competition.
 
 ## 2 方案
 ### 2.1 初步分析
@@ -81,7 +84,7 @@ ID,Text,Labels
 
 **其他尝试：**
 1. 以上两类模型训练完后，我都曾尝试使用SGD进行继续训练，但似乎很难找到更好的点，所以后面就把这个步骤省略了。
-2. 我还尝试了一种微调方法Child-Tuning（《Raise a Child in Large Language Model: Towards Effective and Generalizable Fine-tuning》）。其思想是更新梯度时只更新一部分参数的梯度，相当于对反向传播加了一个正则化。其中child-tuning-f是每次随机选择要更新的参数，child-tuning-d是先根据fisher信息计算一个集合（意为这个集合里的参数更无关紧要），以后只更新集合外的参数。不过两种方法我都进行了多次尝试，似乎没有明显的提升。
+2. 我还尝试了一种微调方法Child-Tuning（《Raise a Child in Large Language Model: Towards Effective and Generalizable Fine-tuning》）。其思想是反向传播更新参数时只更新一部分参数，相当于对反向传播加了一个正则化。其中child-tuning-f是每次随机选择要更新的参数，child-tuning-d是先根据fisher信息计算一个集合（意为这个集合里的参数更无关紧要），以后只更新集合外的参数。不过两种方法我都进行了多次尝试，似乎没有明显的提升。
 
 #### 2.2.3 模型融合
 **单模型参数平均：**
